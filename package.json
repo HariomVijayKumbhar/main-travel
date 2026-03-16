@@ -21,6 +21,7 @@
   "homepage": "https://github.com/HariomVijayKumbhar/travelagency#readme",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "@supabase/supabase-js": "^2.99.1",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
