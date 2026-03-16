@@ -164,6 +164,8 @@ const Auth = {
         if (!navList) return;
 
         const user = this.getCurrentUser();
+        document.body.classList.toggle('user-logged-in', !!user);
+        
         const existingAuthItems = document.querySelectorAll(".auth-item");
         existingAuthItems.forEach((el) => el.remove());
 
@@ -171,15 +173,6 @@ const Auth = {
         const signUpBtn = document.querySelector('a[href*="register.html"]');
 
         if (user) {
-            staticLinks.forEach(link => {
-                const container = link.closest('li') || link;
-                container.style.display = 'none';
-            });
-            if (signUpBtn) {
-                const container = signUpBtn.closest('li') || signUpBtn;
-                container.style.display = 'none';
-            }
-
             if (!window.location.pathname.includes('profile.html')) {
                 const userItem = `
                     <li class="nav-item auth-item dropdown">
@@ -196,14 +189,6 @@ const Auth = {
             }
             
         } else {
-            staticLinks.forEach(link => {
-                const container = link.closest('li') || link;
-                container.style.display = '';
-            });
-            if (signUpBtn) {
-                const container = signUpBtn.closest('li') || signUpBtn;
-                container.style.display = '';
-            }
             if (window.location.pathname.includes('profile.html')) {
                 window.location.href = "login.html";
             }
