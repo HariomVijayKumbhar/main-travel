@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maharaja Travels Agency | Premium Travel Experiences</title>
+    <link rel="icon" href="assets/images/logo.jpeg" type="image/jpeg" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/auth.css" />
+  </head>
+  <body>
+    <!-- Top Bar -->
+    <div class="top-bar d-none d-md-block">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div><i class="fa-solid fa-phone me-2"></i>+91 8698362024 | <i class="fa-solid fa-envelope ms-3 me-2"></i>MaharajaTravels09@gmail.com</div>
+        <div>
+          <a href="https://www.instagram.com/abhipatil_a.p" target="_blank"><i class="fa-brands fa-instagram me-1"></i> Instagram</a>
+          <a href="#"><i class="fa-brands fa-whatsapp me-1"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img src="assets/images/logo.jpeg" alt="Maharaja Travels Logo" class="logo">
+          <span class="logo-text">Maharaja Travels</span>
+        </a>
+        <div class="d-flex align-items-center order-lg-last">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button
+            class="navbar-toggler ms-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#destinations">Destinations</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="pages/offers.html">Offers</a></li>
+          </ul>
+          <div class="d-flex">
+            <a href="pages/login.html" class="nav-link auth-link d-flex align-items-center fw-bold me-3">Login</a>
+            <a href="pages/register.html" class="btn-modern px-4 py-2" style="font-size: 0.95rem;">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-bg-shapes">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+      </div>
+      <div class="container hero-content">
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <h1>Discover your next <br><span class="gradient-text">Adventure</span></h1>
+            <p>
+              Personalized travel experiences, curated itineraries, and exceptional service across the globe. Book flights, hotels, and tours with unparalleled luxury and confidence.
+            </p>
+            <div class="hero-btns">
+              <a href="#destinations" class="btn-modern">Explore Destinations</a>
+              <a href="#about" class="btn-modern" style="background: transparent; color: var(--text-main); box-shadow: none; border: 1px solid var(--border);">Learn More</a>
+            </div>
+          </div>
+          <div class="col-lg-6 position-relative">
+            <div class="hero-image-wrapper">
+              <img src="assets/images/munnar.jpg" alt="Beautiful travel destination" class="hero-image">
+              
+              <div class="glass-badge top-right">
+                <i class="fa-solid fa-plane-departure"></i>
+                <div class="badge-text">
+                  <h4>50+</h4>
+                  <p>Destinations</p>
+                </div>
+              </div>
+              
+              <div class="glass-badge bottom-left">
+                <i class="fa-solid fa-users"></i>
+                <div class="badge-text">
+                  <h4>10k+</h4>
+                  <p>Happy Travelers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search Section -->
+    <div class="container" style="position: relative; z-index: 20;">
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchDestinations"
+          placeholder="Where do you want to go?"
+          class="search-input"
+        />
+        <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="features" id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h2 class="section-title">Why Choose Us?</h2>
+            <p class="section-subtitle">
+              We are a premium travel agency in Kolhapur, offering world-class, personalized travel experiences with round-the-clock support and expert visa assistance.
+            </p>
+          </div>
+        </div>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-star"></i></div>
+              <h3>Expertise in Travel</h3>
+              <p>Years of experience organizing memorable trips across stunning international destinations.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+              <h3>Best Prices</h3>
+              <p>Competitive, transparent pricing with absolutely no hidden costs for premium service.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="feature-card">
+              <div class="feature-icon"><i class="fa-solid fa-passport"></i></div>
+              <h3>Visa Assistance</h3>
+              <p>Seamless processing with expert help for international visas and comprehensive passport services.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="destinations" id="destinations">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h2 class="section-title">Popular Destinations</h2>
+            <p class="section-subtitle">
+              Explore the world's most beautiful destinations with our carefully crafted, highly luxurious tour packages.
+            </p>
+          </div>
+        </div>
+        <div class="row g-4 mt-2" id="destinationsContainer">
+          <div class="col-lg-4 col-md-6">
+            <div class="destination-card" onclick="window.location.href='pages/MUNNAR.html'">
+              <div class="destination-img-wrapper">
+                <img src="assets/images/munnar.jpg" alt="Munnar" class="destination-img" />
+                <div class="destination-overlay"></div>
+                <div class="destination-badge">Hill Station</div>
+              </div>
+              <div class="destination-info">
+                <h3>Munnar</h3>
+                <p>Located in the Idukki district of Kerala, known for misty valleys, sprawling tea plantations, and stunning biodiversity like Eravikulam National Park.</p>
+                <div class="destination-footer">
+                  <span class="destination-rating"><i class="fa-solid fa-star"></i> 4.8</span>
+                  <span class="destination-price">Explore <i class="fa-solid fa-arrow-right ms-2"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-md-6">
+            <div class="destination-card" onclick="window.location.href='pages/GOABEACHES.html'">
+              <div class="destination-img-wrapper">
+                <img src="assets/images/GOA.avif" alt="Goa Beaches" class="destination-img" />
+                <div class="destination-overlay"></div>
+                <div class="destination-badge">Tropical Escape</div>
+              </div>
+              <div class="destination-info">
+                <h3>Goa Beaches</h3>
+                <p>Experience the lively, crowded beaches of North Goa, and the peaceful, serene sandy shores of South Goa's tropical paradise.</p>
+                <div class="destination-footer">
+                  <span class="destination-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                  <span class="destination-price">Explore <i class="fa-solid fa-arrow-right ms-2"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="destination-card" onclick="window.location.href='pages/Mumbai.html'">
+              <div class="destination-img-wrapper">
+                <img src="assets/images/mumbai.jpg" alt="Mumbai" class="destination-img" />
+                <div class="destination-overlay"></div>
+                <div class="destination-badge">City Life</div>
+              </div>
+              <div class="destination-info">
+                <h3>Mumbai City</h3>
+                <p>India's financial and commercial center. See phenomenal sights including the Gateway of India, Juhu Beach, and historic Victoria Terminus.</p>
+                <div class="destination-footer">
+                  <span class="destination-rating"><i class="fa-solid fa-star"></i> 4.7</span>
+                  <span class="destination-price">Explore <i class="fa-solid fa-arrow-right ms-2"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="destination-card" onclick="window.location.href='pages/Raigad.html'">
+              <div class="destination-img-wrapper">
+                <img src="assets/images/raigad.png" alt="Raigad" class="destination-img" />
+                <div class="destination-overlay"></div>
+                <div class="destination-badge">Heritage</div>
+              </div>
+              <div class="destination-info">
+                <h3>Raigad Fort</h3>
+                <p>Located along the Arabian Sea coast, witness the awe-inspiring remnants of palaces, a royal mint, and the Samadhi of Shivaji Maharaj.</p>
+                <div class="destination-footer">
+                  <span class="destination-rating"><i class="fa-solid fa-star"></i> 4.6</span>
+                  <span class="destination-price">Explore <i class="fa-solid fa-arrow-right ms-2"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="destination-card" onclick="window.location.href='pages/DENDAL.html'">
+              <div class="destination-img-wrapper">
+                <img src="assets/images/Dandeli.jpg" alt="Dandeli" class="destination-img" />
+                <div class="destination-overlay"></div>
+                <div class="destination-badge">Adventure</div>
+              </div>
+              <div class="destination-info">
+                <h3>Dandeli</h3>
+                <p>Located in the Western Ghats with lush forests, wildlife, and adventure activities including white water rafting, kayaking, and trekking down the Kali River.</p>
+                <div class="destination-footer">
+                  <span class="destination-rating"><i class="fa-solid fa-star"></i> 4.8</span>
+                  <span class="destination-price">Explore <i class="fa-solid fa-arrow-right ms-2"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="destination-card" onclick="window.location.href='pages/RISHIKESH.html'">
+              <div class="destination-img-wrapper">
+                <img src="assets/images/rishikesh.jpg" alt="Rishikesh" class="destination-img" />
+                <div class="destination-overlay"></div>
+                <div class="destination-badge">Spiritual</div>
+              </div>
+              <div class="destination-info">
+                <h3>Rishikesh</h3>
+                <p>Situated in the Uttarakhand Himalayas, explore numerous ancient temples, ashrams, walk across suspension bridges and embrace the spiritual atmosphere.</p>
+                <div class="destination-footer">
+                  <span class="destination-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                  <span class="destination-price">Explore <i class="fa-solid fa-arrow-right ms-2"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
+        <h2 class="section-title">What Our Travelers Say</h2>
+        <div class="row g-4 mt-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="testimonial-card">
+              <i class="fa-solid fa-quote-right quote-icon"></i>
+              <p>"Maharaja Travels made our international trip seamless. Excellent visa assistance and personalized luxury service!"</p>
+              <div class="testimonial-author">
+                <img src="https://ui-avatars.com/api/?name=Rajesh+Kumar&background=4f46e5&color=fff" alt="Rajesh" class="author-img">
+                <div class="author-info">
+                  <h4>Rajesh Kumar</h4>
+                  <span>Family Traveler</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="testimonial-card">
+              <i class="fa-solid fa-quote-right quote-icon"></i>
+              <p>"Great deals on group tours. Highly recommend for adventure seekers looking for a premium experience without breaking the bank."</p>
+              <div class="testimonial-author">
+                <img src="https://ui-avatars.com/api/?name=Priya+Patel&background=f43f5e&color=fff" alt="Priya" class="author-img">
+                <div class="author-info">
+                  <h4>Priya Patel</h4>
+                  <span>Adventure Enthusisast</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="testimonial-card">
+              <i class="fa-solid fa-quote-right quote-icon"></i>
+              <p>"Professional and extremely reliable. Booked our luxury family vacation with total ease and peace of mind."</p>
+              <div class="testimonial-author">
+                <img src="https://ui-avatars.com/api/?name=Amit+Kumar&background=0f172a&color=fff" alt="Amit" class="author-img">
+                <div class="author-info">
+                  <h4>Amit Kumar</h4>
+                  <span>Business Traveler</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <h2>Ready to Start Your Journey?</h2>
+        <p>Contact us today and let our experts craft your perfect itinerary.</p>
+        
+        <div class="contact-info mt-5">
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <h4>Call Us</h4>
+            <p>+91 8698362024</p>
+            <p class="text-sm mt-2 opacity-75">Available 24/7</p>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+            <h4>Email Us</h4>
+            <p>MaharajaTravels09@gmail.com</p>
+            <p class="text-sm mt-2 opacity-75">Quick Response</p>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <h4>Visit Us</h4>
+            <p>Jawaharnagar, Ichalkaranji</p>
+            <p class="text-sm mt-2 opacity-75">Kolhapur, Maharashtra</p>
+          </div>
+        </div>
+        
+        <div class="mt-5 pt-4">
+          <a href="tel:+918698362024" class="btn-modern bg-white text-primary">Get in Touch <i class="fa-solid fa-arrow-right ms-2"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div>
+            <div class="footer-logo">
+              <img src="assets/images/logo.jpeg" alt="Logo">
+              <span>Maharaja Travels</span>
+            </div>
+            <p>Crafting luxurious, personalized international and domestic travel experiences from Kolhapur to the world.</p>
+            <div class="social-links">
+              <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/abhipatil_a.p"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+          
+          <div>
+            <h4>Quick Links</h4>
+            <ul>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#home">Home</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#about">About</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#destinations">Destinations</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#contact">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Top Destinations</h4>
+            <ul>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="pages/MUNNAR.html">Munnar</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="pages/GOABEACHES.html">Goa Beaches</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="pages/RISHIKESH.html">Rishikesh</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="pages/DENDAL.html">Dandeli</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Services</h4>
+            <ul>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Custom Itineraries</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Visa Assistance</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Hotel Bookings</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Flight Tickets</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p class="mb-0">&copy; <span id="year"></span> Maharaja Travels Agency. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <!-- Modals are dynamically injected by assets/js/main.js -->
+
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Simple dark mode toggle functionality based on theme icon
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = themeToggle.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

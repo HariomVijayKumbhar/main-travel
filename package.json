@@ -1,0 +1,28 @@
+{
+  "name": "travelagency",
+  "version": "1.0.0",
+  "description": "A modern, responsive travel agency website built with HTML, CSS, Bootstrap, and JavaScript. Features animated backgrounds, user authentication (demo), and a clean design for showcasing travel packages and services.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HariomVijayKumbhar/travelagency.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HariomVijayKumbhar/travelagency/issues"
+  },
+  "homepage": "https://github.com/HariomVijayKumbhar/travelagency#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}

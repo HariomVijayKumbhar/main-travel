@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Secure Payment - Maharaja Travels Agency</title>
+    <link rel="icon" href="../assets/images/logo.jpeg" type="image/jpeg" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .payment-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            position: sticky;
+            top: 6rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .nav-tabs {
+            border: none;
+            background: var(--bg-alt);
+            padding: 6px;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--bg-card);
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-control {
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            background: var(--bg-main);
+            color: var(--text-main);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            border-color: var(--primary);
+            background: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .input-group-text {
+            background: var(--bg-alt);
+            border-color: var(--border);
+            color: var(--text-muted);
+        }
+
+        .btn-pay {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5);
+            color: white;
+        }
+
+        .offer-item {
+            cursor: pointer;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+            position: relative;
+            background: var(--bg-main);
+        }
+
+        .offer-item:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+
+        .offer-item.active {
+            border-color: var(--primary);
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        .offer-item.active::after {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .discount-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .qr-container {
+            background: white;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    
+    <!-- Top Bar -->
+    <div class="top-bar d-none d-md-block">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div><i class="fa-solid fa-phone me-2"></i>+91 8698362024 | <i class="fa-solid fa-envelope ms-3 me-2"></i>MaharajaTravels09@gmail.com</div>
+            <div>
+                <a href="https://www.instagram.com/abhipatil_a.p" target="_blank"><i class="fa-brands fa-instagram me-1"></i> Instagram</a>
+                <a href="#"><i class="fa-brands fa-whatsapp me-1"></i> WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-white sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../assets/images/logo.jpeg" alt="Maharaja Travels Logo" class="logo">
+                <span class="logo-text">Maharaja Travels</span>
+            </a>
+             <div class="d-flex align-items-center order-lg-last">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5 pb-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <a href="javascript:history.back()" class="text-decoration-none text-muted fw-bold mb-3 d-inline-block hover-primary"><i class="fa-solid fa-arrow-left me-2"></i>Back to Booking</a>
+                <h2 class="fw-bold section-title mb-0" style="text-align: left;">Secure Checkout</h2>
+                <p class="text-muted">Complete your payment securely with Maharaja Travels.</p>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <!-- Left Column: Payment Methods & Offers -->
+            <div class="col-lg-7">
+                <div class="card payment-card p-4 mb-4">
+                    <h4 class="fw-bold mb-4" style="font-family: var(--font-heading);">Select Payment Method</h4>
+                    <ul class="nav nav-tabs nav-fill" id="paymentTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="card-tab" data-bs-toggle="tab" data-bs-target="#card" type="button" role="tab">
+                                <i class="fas fa-credit-card me-2"></i>Credit / Debit Card
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="upi-tab" data-bs-toggle="tab" data-bs-target="#upi" type="button" role="tab">
+                                <i class="fa-brands fa-google-pay me-2"></i>UPI / QR
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="paymentTabsContent">
+                        <!-- Card Payment -->
+                        <div class="tab-pane fade show active" id="card" role="tabpanel">
+                            <form id="paymentForm">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted text-uppercase mb-1">Cardholder Name</label>
+                                    <input type="text" class="form-control" id="cardName" placeholder="Full Name" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold text-muted text-uppercase mb-1">Card Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text border-end-0"><i class="far fa-credit-card"></i></span>
+                                        <input type="text" class="form-control border-start-0" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="16" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-6">
+                                        <label class="form-label small fw-bold text-muted text-uppercase mb-1">Expiry Date</label>
+                                        <input type="month" class="form-control" id="expiryDate" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small fw-bold text-muted text-uppercase mb-1">CVV</label>
+                                        <input type="text" class="form-control" id="cvv" placeholder="123" maxlength="4" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-pay w-100 mt-2" id="cardPayBtn">Pay Securely <i class="fa-solid fa-lock ms-2"></i></button>
+                            </form>
+                        </div>
+
+                        <!-- UPI Payment -->
+                        <div class="tab-pane fade" id="upi" role="tabpanel">
+                            <div class="text-center py-4">
+                                <div class="qr-container border rounded-4 d-inline-block mb-4 shadow-sm">
+                                    <img id="upiQrCode" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=7038948696@upi&pn=MaharajaTravels" alt="Scan to pay" style="width: 200px; height: 200px;">
+                                </div>
+                                <h5 class="mb-1 fw-bold">Scan with any UPI App</h5>
+                                <p class="text-muted small">Google Pay, PhonePe, Paytm, BHIM</p>
+                                <div class="bg-alt p-3 rounded-3 mb-4 d-inline-block border border-light">
+                                    <span class="text-muted me-2">Merchant UPI ID:</span> <span class="fw-bold text-primary">7038948696@upi</span>
+                                </div>
+                                <form id="upiForm">
+                                    <div class="mb-4 text-start">
+                                        <label class="form-label small fw-bold text-muted text-uppercase mb-1">Transaction ID / Reference Number</label>
+                                        <input type="text" class="form-control" id="upiId" placeholder="Enter 12-digit Ref No." required>
+                                    </div>
+                                    <button type="submit" class="btn-pay w-100" id="upiPayBtn">Verify & Confirm Payment <i class="fa-solid fa-check ms-2"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offers Selection Section -->
+                <div class="card payment-card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0" style="font-family: var(--font-heading);">Available Offers</h5>
+                        <i class="fa-solid fa-tags text-primary fs-4"></i>
+                    </div>
+                    <div id="offersList" class="row g-3">
+                        <!-- Offers will be injected here if from database, or hardcoded for demo -->
+                        <div class="col-12">
+                            <div class="offer-item p-3" data-offer-id="SUMMER20" data-discount="20">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1 fw-bold pe-4">Summer Bliss Festival</h6>
+                                        <p class="text-muted small mb-0">Get 20% off on your current booking</p>
+                                        <div class="mt-2 text-uppercase fw-bold" style="font-size: 0.75rem; color: var(--primary);">Code: SUMMER20</div>
+                                    </div>
+                                    <span class="discount-badge">20% OFF</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="offer-item p-3" data-offer-id="EARLYBIRD" data-discount="15">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1 fw-bold pe-4">Early Explorer Discount</h6>
+                                        <p class="text-muted small mb-0">Get 15% off for planning ahead</p>
+                                        <div class="mt-2 text-uppercase fw-bold" style="font-size: 0.75rem; color: var(--primary);">Code: EARLYBIRD</div>
+                                    </div>
+                                    <span class="discount-badge">15% OFF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Summary -->
+            <div class="col-lg-5">
+                <div class="summary-card">
+                    <h4 class="fw-bold mb-4 border-bottom border-light pb-3 border-opacity-25" style="font-family: var(--font-heading);">Order Summary</h4>
+                    
+                    <div class="d-flex justify-content-between mb-3 opacity-90">
+                        <span><i class="fa-solid fa-box me-2"></i>Package</span>
+                        <span id="summaryPackage" class="fw-bold text-end">Loading...</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-3 opacity-90">
+                        <span><i class="fa-solid fa-users me-2"></i>Travelers</span>
+                        <span id="summaryTravelers" class="fw-bold text-end">0 Persons</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-3 opacity-90">
+                        <span><i class="fa-regular fa-calendar-check me-2"></i>Dates</span>
+                        <div class="text-end">
+                            <div id="summaryDates" class="fw-bold small">Not selected</div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 border-light opacity-25">
+                    
+                    <div class="d-flex justify-content-between mb-2 opacity-90">
+                        <span>Base Amount</span>
+                        <span id="baseAmount" class="fw-medium">₹0</span>
+                    </div>
+                    
+                    <div id="offerRow" class="d-flex justify-content-between mb-2 d-none" style="color: #6ee7b7; font-weight: 600;">
+                        <span><i class="fa-solid fa-tag me-1"></i> Discount (<span id="appliedOfferName">None</span>)</span>
+                        <span id="discountAmount">-₹0</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2 opacity-75 small text-uppercase">
+                        <span>Taxes & Fees</span>
+                        <span>Included</span>
+                    </div>
+                    
+                    <hr class="my-4 border-light opacity-25">
+                    
+                    <div class="d-flex justify-content-between align-items-end mt-2">
+                        <span class="h6 fw-bold mb-0 opacity-75">Total to Pay</span>
+                        <span class="fs-2 fw-bold mb-0 lh-1" id="summaryTotal" style="text-shadow: 0 2px 10px rgba(0,0,0,0.2);">₹0</span>
+                    </div>
+                    
+                    <div class="mt-5 text-center">
+                        <div class="mb-2 d-flex justify-content-center gap-3 opacity-75 fs-4">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <i class="fa-brands fa-google-pay"></i>
+                            <i class="fa-brands fa-cc-amex"></i>
+                        </div>
+                        <p class="small opacity-75 mb-0">
+                            <i class="fas fa-lock me-1"></i> 256-bit SSL Encrypted Payment
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content" style="grid-template-columns: 2fr 1.5fr 1.5fr;">
+                <div>
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo.jpeg" alt="Logo">
+                        <span>Maharaja Travels</span>
+                    </div>
+                    <p>Crafting luxurious, personalized international and domestic travel experiences from Kolhapur to the world.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/abhipatil_a.p"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="../index.html">Home</a></li>
+                        <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="../index.html#about">About</a></li>
+                        <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="../index.html#contact">Contact Us</a></li>
+                        <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="offers.html">Offers</a></li>
+                    </ul>
+                </div>
+  
+                <div>
+                    <h4>Services</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Custom Itineraries</a></li>
+                        <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Hotel Bookings</a></li>
+                        <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Flight Tickets</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; <span id="year"></span> Maharaja Travels Agency. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Success Modal -->
+    <div class="modal fade" id="paymentSuccessModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content overflow-hidden border-0 bg-transparent">
+                <div class="modal-body p-0 text-center">
+                    <div class="bg-card p-5 rounded-4 shadow-lg position-relative border border-border">
+                        <div class="mb-4">
+                            <div class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success rounded-circle" style="width: 100px; height: 100px;">
+                                <i class="fa-solid fa-check fs-1"></i>
+                            </div>
+                        </div>
+                        <h3 class="fw-bold mb-2 text-main" style="font-family: var(--font-heading);">Payment Successful!</h3>
+                        <p class="text-muted mb-4 opacity-75">Thank you for booking with Maharaja Travels. Your adventure awaits.</p>
+                        
+                        <div class="bg-alt rounded-3 p-3 mb-4 text-start border border-border">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small">Transaction ID</span>
+                                <span class="fw-bold small" id="successTxId">TRX-123456</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted small">Amount Paid</span>
+                                <span class="fw-bold text-success small" id="successAmount">₹0</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <a href="profile.html" class="btn-modern px-4 py-2 w-100" style="background: transparent; color: var(--text-main); border: 1px solid var(--border); box-shadow: none;">View Bookings</a>
+                            <a href="../index.html" class="btn-modern px-4 py-2 w-100 bg-primary">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Processing Overlay -->
+    <div id="paymentProcessing" class="position-fixed top-0 start-0 w-100 h-100 d-none justify-content-center align-items-center" style="background: rgba(15, 23, 42, 0.9); z-index: 9999; backdrop-filter: blur(5px);">
+        <div class="text-center text-white">
+            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h4 class="fw-bold">Processing Payment</h4>
+            <p class="opacity-75">Please do not refresh or close this page...</p>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = themeToggle.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

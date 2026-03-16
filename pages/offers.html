@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exclusive Offers | Maharaja Travels Agency</title>
+    <meta
+      name="description"
+      content="Explore special travel offers and deals from Maharaja Travels. Book your next trip with exclusive discounts and packages."
+    />
+    <meta
+      name="keywords"
+      content="travel offers, deals, Maharaja Travels, discounts"
+    />
+    <link rel="icon" href="../assets/images/logo.jpeg" type="image/jpeg" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/auth.css" />
+    <style>
+      .hero-offers {
+        padding: 160px 0 100px;
+        background: var(--bg-alt);
+        position: relative;
+        overflow: hidden;
+      }
+      .offer-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 2.5rem 2rem;
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+      .offer-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--card-shadow);
+        border-color: var(--primary-light);
+      }
+      .offer-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        opacity: 0;
+        transition: var(--transition);
+      }
+      .offer-card:hover::before {
+        opacity: 1;
+      }
+      .offer-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--accent);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+      }
+      .offer-icon {
+        width: 70px;
+        height: 70px;
+        background: var(--bg-alt);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+        transition: var(--transition);
+      }
+      .offer-card:hover .offer-icon {
+        background: var(--primary);
+        color: white;
+        transform: scale(1.1) rotate(5deg);
+      }
+      .offer-card h3 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .offer-details {
+        flex: 1;
+        margin-bottom: 2rem;
+      }
+      .offer-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .offer-list li {
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+      .offer-list li i {
+        color: #10b981;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Bar -->
+    <div class="top-bar d-none d-md-block">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div><i class="fa-solid fa-phone me-2"></i>+91 8698362024 | <i class="fa-solid fa-envelope ms-3 me-2"></i>MaharajaTravels09@gmail.com</div>
+        <div>
+          <a href="https://www.instagram.com/abhipatil_a.p" target="_blank"><i class="fa-brands fa-instagram me-1"></i> Instagram</a>
+          <a href="#"><i class="fa-brands fa-whatsapp me-1"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <img src="../assets/images/logo.jpeg" alt="Maharaja Travels Logo" class="logo">
+          <span class="logo-text">Maharaja Travels</span>
+        </a>
+        <div class="d-flex align-items-center order-lg-last">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button
+            class="navbar-toggler ms-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#destinations">Destinations</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html#contact">Contact</a></li>
+            <li class="nav-item"><a class="nav-link active" href="offers.html">Offers</a></li>
+          </ul>
+          <div class="d-flex">
+            <a href="login.html" class="nav-link auth-link d-flex align-items-center fw-bold me-3">Login</a>
+            <a href="register.html" class="btn-modern px-4 py-2" style="font-size: 0.95rem;">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-offers">
+      <div class="hero-bg-shapes">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+      </div>
+      <div class="container text-center position-relative z-index-10">
+        <span class="badge bg-primary-light px-3 py-2 rounded-pill mb-3 text-uppercase fw-bold" style="letter-spacing: 1px;">Limited Time</span>
+        <h1 class="section-title">Exclusive <span class="gradient-text">Travel Deals</span></h1>
+        <p class="section-subtitle">
+          Unlock premium experiences with our handpicked seasonal offers. Your dream destination is now more accessible than ever.
+        </p>
+      </div>
+    </section>
+
+    <!-- Offers Section -->
+    <section class="py-5" style="background: var(--bg-color);">
+      <div class="container">
+        <div class="row g-4 justify-content-center">
+          <!-- Summer Deal -->
+          <div class="col-lg-4 col-md-6">
+            <div class="offer-card">
+              <span class="offer-badge">20% OFF</span>
+              <div class="offer-icon">
+                <i class="fas fa-sun"></i>
+              </div>
+              <div class="offer-details">
+                <h3>Summer Bliss</h3>
+                <p class="text-muted">Escape to the most beautiful beaches with our premium summer packages and luxury resorts.</p>
+                <ul class="offer-list mt-3">
+                  <li><i class="fas fa-check-circle"></i> Luxury Beach Resorts</li>
+                  <li><i class="fas fa-check-circle"></i> Private Guided Tours</li>
+                  <li><i class="fas fa-check-circle"></i> VIP Airport Transfer</li>
+                </ul>
+              </div>
+              <button class="btn-modern w-100 btn-claim" data-offer-id="SUMMER20" data-discount="20">
+                Claim Summer Deal
+              </button>
+            </div>
+          </div>
+
+          <!-- Early Bird -->
+          <div class="col-lg-4 col-md-6">
+            <div class="offer-card">
+              <span class="offer-badge">15% OFF</span>
+              <div class="offer-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="offer-details">
+                <h3>Early Explorer</h3>
+                <p class="text-muted">Plan ahead and save. Book your trip 6 months in advance for special rates and priority perks.</p>
+                <ul class="offer-list mt-3">
+                  <li><i class="fas fa-check-circle"></i> Priority Booking Status</li>
+                  <li><i class="fas fa-check-circle"></i> Flexible Rescheduling</li>
+                  <li><i class="fas fa-check-circle"></i> Premium Welcome Kit</li>
+                </ul>
+              </div>
+              <button class="btn-modern w-100 btn-claim" data-offer-id="EARLYBIRD" data-discount="15">
+                Claim Early Bird
+              </button>
+            </div>
+          </div>
+
+          <!-- Group Discount -->
+          <div class="col-lg-4 col-md-6">
+            <div class="offer-card">
+              <span class="offer-badge">25% OFF</span>
+              <div class="offer-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="offer-details">
+                <h3>Group Adventure</h3>
+                <p class="text-muted">Memories are better shared. Special discounts for families and groups of 4 or more travelers.</p>
+                <ul class="offer-list mt-3">
+                  <li><i class="fas fa-check-circle"></i> Custom Group Activities</li>
+                  <li><i class="fas fa-check-circle"></i> Dedicated Tour Lead</li>
+                  <li><i class="fas fa-check-circle"></i> Shared Luxury Bus</li>
+                </ul>
+              </div>
+              <button class="btn-modern w-100 btn-claim" data-offer-id="GROUP25" data-discount="25">
+                Claim Group Deal
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div>
+            <div class="footer-logo">
+              <img src="../assets/images/logo.jpeg" alt="Logo">
+              <span>Maharaja Travels</span>
+            </div>
+            <p>Crafting luxurious, personalized international and domestic travel experiences from Kolhapur to the world.</p>
+            <div class="social-links">
+              <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="https://www.instagram.com/abhipatil_a.p"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+          
+          <div>
+            <h4>Quick Links</h4>
+            <ul>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="../index.html">Home</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="../index.html#about">About</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="../index.html#destinations">Destinations</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="../index.html#contact">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Top Destinations</h4>
+            <ul>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="MUNNAR.html">Munnar</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="GOABEACHES.html">Goa Beaches</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="RISHIKESH.html">Rishikesh</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="DENDAL.html">Dandeli</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Services</h4>
+            <ul>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Custom Itineraries</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Visa Assistance</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Hotel Bookings</a></li>
+              <li><i class="fa-solid fa-chevron-right me-2" style="font-size: 0.8rem;"></i> <a href="#">Flight Tickets</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p class="mb-0">&copy; <span id="year"></span> Maharaja Travels Agency. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+      // Theme Toggle Logic
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+          themeToggle.addEventListener('click', () => {
+              document.body.classList.toggle('dark-mode');
+              const icon = themeToggle.querySelector('i');
+              if (document.body.classList.contains('dark-mode')) {
+                  icon.classList.remove('fa-moon');
+                  icon.classList.add('fa-sun');
+              } else {
+                  icon.classList.remove('fa-sun');
+                  icon.classList.add('fa-moon');
+              }
+          });
+      }
+
+      // Claim Offer Logic
+      document.addEventListener("DOMContentLoaded", () => {
+        const claimButtons = document.querySelectorAll(".btn-claim");
+        claimButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const offer = {
+              id: btn.getAttribute("data-offer-id"),
+              discount: parseInt(btn.getAttribute("data-discount")),
+              name: btn.parentElement.querySelector("h3").textContent,
+            };
+            localStorage.setItem("claimedOffer", JSON.stringify(offer));
+            alert(`Offer Claimed: ${offer.name}! It will be applied during your next booking.`);
+            window.location.href = "../index.html";
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
