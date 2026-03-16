@@ -95,7 +95,7 @@ const Auth = {
                 alert("Registration Successful! Welcome to Maharaja Travels.");
                 window.location.href = "login.html";
             } else {
-                alert("Registration failed: " + result.error);
+                alert("Registration failed: " + (result.error || result.message || "Unknown error (Status: " + response.status + ")"));
             }
         } catch (error) {
             console.error("Registration error:", error);
@@ -127,7 +127,7 @@ const Auth = {
                 alert(`Welcome back, ${result.user.user_metadata.full_name || result.user.email}!`);
                 window.location.href = "../index.html";
             } else {
-                alert("Login failed: " + result.error);
+                alert("Login failed: " + (result.error || result.message || "Unknown error (Status: " + response.status + ")"));
             }
         } catch (error) {
             console.error("Login error:", error);
