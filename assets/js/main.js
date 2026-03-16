@@ -163,15 +163,22 @@ const Auth = {
         const navList = document.querySelector(".navbar-nav");
         if (!navList) return;
 
+        const user = this.getCurrentUser();
+        const existingAuthItems = document.querySelectorAll(".auth-item");
+        existingAuthItems.forEach((el) => el.remove());
+
         const staticLinks = document.querySelectorAll('.auth-link');
         const signUpBtn = document.querySelector('a[href*="register.html"]');
 
         if (user) {
             staticLinks.forEach(link => {
-                if(link.closest('li')) link.closest('li').style.display = 'none';
-                else link.style.display = 'none';
+                const container = link.closest('li') || link;
+                container.style.display = 'none';
             });
-            if (signUpBtn) signUpBtn.style.display = 'none';
+            if (signUpBtn) {
+                const container = signUpBtn.closest('li') || signUpBtn;
+                container.style.display = 'none';
+            }
 
             if (!window.location.pathname.includes('profile.html')) {
                 const userItem = `
@@ -190,8 +197,13 @@ const Auth = {
             
         } else {
             staticLinks.forEach(link => {
-                if(link.parentElement) link.parentElement.style.display = '';
+                const container = link.closest('li') || link;
+                container.style.display = '';
             });
+            if (signUpBtn) {
+                const container = signUpBtn.closest('li') || signUpBtn;
+                container.style.display = '';
+            }
             if (window.location.pathname.includes('profile.html')) {
                 window.location.href = "login.html";
             }
