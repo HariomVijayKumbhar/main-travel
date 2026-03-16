@@ -173,22 +173,36 @@ const Auth = {
         const signUpBtn = document.querySelector('a[href*="register.html"]');
 
         if (user) {
-            if (!window.location.pathname.includes('profile.html')) {
-                const userItem = `
-                    <li class="nav-item auth-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="nav-avatar" alt="Profile">
-                            ${user.name}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
-                        </ul>
-                    </li>
-                `;
-                navList.insertAdjacentHTML("beforeend", userItem);
-            }
+            const isSubPage = window.location.pathname.includes('/pages/');
+            const profilePath = isSubPage ? 'profile.html' : 'pages/profile.html';
             
-        } else {
+            const userItem = `
+                <li class="nav-item auth-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff" class="nav-avatar rounded-circle me-2" alt="Profile" style="width: 32px; height: 32px; object-fit: cover; border: 2px solid var(--primary);">
+                        <span>${user.name}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="navbarDropdown" style="background: var(--bg-card); backdrop-filter: blur(16px);">
+                        <li><a class="dropdown-item py-2" href="${profilePath}"><i class="fa-solid fa-user me-2 text-primary"></i>My Profile</a></li>
+                        <li><hr class="dropdown-divider opacity-10"></li>
+                        <li><a class="dropdown-item py-2 text-danger" href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</a></li>
+                    </ul>
+                </li>
+            `;
+            navList.insertAdjacentHTML("beforeend", userItem);
+            
+            // Add event listener for the newly created logout button
+            setTimeout(() => {
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.logout();
+                    });
+                }
+            }, 0);
+        }
+ else {
             if (window.location.pathname.includes('profile.html')) {
                 window.location.href = "login.html";
             }
