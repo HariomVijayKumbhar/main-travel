@@ -72,6 +72,7 @@ app.post("/api/auth/register", async (req, res) => {
     password,
     options: {
       data: { full_name: name },
+      emailRedirectTo: "https://mharajatravel.netlify.app/pages/login.html"
     },
   });
 
