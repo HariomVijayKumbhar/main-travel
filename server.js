@@ -1,11 +1,14 @@
 require("dotenv").config();
 const express = require("express");
-const { createClient } = require("@supabase/supabase-js");
+const { neon } = require("@neondatabase/serverless");
 const cors = require("cors");
 const path = require("path");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || "maharaja-travels-secret-123";
 
 // Middleware
 app.use(cors());
@@ -16,29 +19,20 @@ app.use(express.static(process.cwd()));
 app.use("/pages", express.static(path.join(process.cwd(), "pages")));
 app.use("/assets", express.static(path.join(process.cwd(), "assets")));
 
-// Root handler to serve index.html
+// Root handler
 app.get("/", (req, res) => {
   res.sendFile(path.join(process.cwd(), "index.html"));
 });
 
-// Supabase Setup
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  console.error("CRITICAL: Supabase URL or Key missing in .env file");
-}
-
-const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+// Neon Database Setup
+const sql = neon(process.env.DATABASE_URL);
 
 // --- Security Middleware ---
 
 /**
- * Middleware to verify Supabase JWT token and extract user
+ * Middleware to verify custom JWT token
  */
 const authenticateUser = async (req, res, next) => {
-  if (!supabase) return res.status(500).json({ error: "Supabase not configured" });
-  
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "No authentication token provided" });
@@ -47,16 +41,11 @@ const authenticateUser = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
   
   try {
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-    if (error || !user) {
-      return res.status(401).json({ error: "Invalid or expired session" });
-    }
-    
-    // Attach user to request object
-    req.user = user;
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // Contains id and email
     next();
   } catch (err) {
-    res.status(401).json({ error: "Authentication failed" });
+    res.status(401).json({ error: "Invalid or expired session" });
   }
 };
 
@@ -64,37 +53,67 @@ const authenticateUser = async (req, res, next) => {
 
 // Register
 app.post("/api/auth/register", async (req, res) => {
-  if (!supabase) return res.status(500).json({ error: "Supabase not configured" });
   const { email, password, name } = req.body;
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { full_name: name },
-    },
-  });
+  try {
+    // Check if user exists
+    const [existingUser] = await sql`SELECT id FROM users WHERE email = ${email}`;
+    if (existingUser) {
+      return res.status(400).json({ error: "User already exists" });
+    }
 
-  if (error) return res.status(400).json({ error: error.message });
-  res.json({ message: "Registration successful", user: data.user });
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Insert user
+    await sql`
+      INSERT INTO users (full_name, email, password_hash)
+      VALUES (${name}, ${email}, ${hashedPassword})
+    `;
+
+    res.json({ message: "Registration successful" });
+  } catch (err) {
+    console.error("Registration error:", err);
+    res.status(500).json({ error: "Failed to register user" });
+  }
 });
 
 // Login
 app.post("/api/auth/login", async (req, res) => {
-  if (!supabase) return res.status(500).json({ error: "Supabase not configured" });
   const { email, password } = req.body;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  try {
+    const [user] = await sql`SELECT * FROM users WHERE email = ${email}`;
+    if (!user) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
 
-  if (error) return res.status(400).json({ error: error.message });
-  res.json({
-    message: "Login successful",
-    session: data.session,
-    user: data.user,
-  });
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    // Create JWT
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.full_name },
+      JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    res.json({
+      message: "Login successful",
+      session: { access_token: token }, // Format for compatibility with frontend
+      user: {
+        email: user.email,
+        id: user.id,
+        user_metadata: { full_name: user.full_name }
+      }
+    });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ error: "Server error during login" });
+  }
 });
 
 // --- Booking Endpoints ---
@@ -104,28 +123,22 @@ app.post("/api/auth/login", async (req, res) => {
  */
 app.post("/api/bookings", authenticateUser, async (req, res) => {
   const booking = req.body;
-  
-  // Security: Ensure user is only booking for themselves
   const userEmail = req.user.email;
 
-  const { data, error } = await supabase.from("bookings").insert([
-    {
-      id: booking.id,
-      name: booking.name,
-      email: booking.email,
-      package: booking.package,
-      travelers: parseInt(booking.travelers),
-      total: booking.total,
-      date: booking.date,
-      status: booking.status,
-      user_email: userEmail, // Use authenticated email from JWT
-      payment_id: booking.paymentId,
-      method: booking.method,
-    },
-  ]);
-
-  if (error) return res.status(400).json({ error: error.message });
-  res.json({ message: "Booking saved successfully", data });
+  try {
+    await sql`
+      INSERT INTO bookings (id, name, email, package, travelers, total, date, status, user_email, payment_id, method)
+      VALUES (
+        ${booking.id}, ${booking.name}, ${booking.email}, ${booking.package}, 
+        ${parseInt(booking.travelers)}, ${booking.total}, ${booking.date}, 
+        ${booking.status}, ${userEmail}, ${booking.paymentId}, ${booking.method}
+      )
+    `;
+    res.json({ message: "Booking saved successfully" });
+  } catch (err) {
+    console.error("Booking save error:", err);
+    res.status(500).json({ error: "Failed to save booking" });
+  }
 });
 
 /**
@@ -134,19 +147,25 @@ app.post("/api/bookings", authenticateUser, async (req, res) => {
 app.get("/api/bookings", authenticateUser, async (req, res) => {
   const userEmail = req.user.email;
 
-  const { data, error } = await supabase
-    .from("bookings")
-    .select("*")
-    .eq("user_email", userEmail) // Strict filtering
-    .order('created_at', { ascending: false });
-
-  if (error) return res.status(400).json({ error: error.message });
-  res.json(data);
+  try {
+    const data = await sql`
+      SELECT * FROM bookings 
+      WHERE user_email = ${userEmail} 
+      ORDER BY created_at DESC
+    `;
+    res.json(data);
+  } catch (err) {
+    console.error("Booking fetch error:", err);
+    res.status(500).json({ error: "Failed to fetch bookings" });
+  }
 });
 
-// For Vercel, we export the app
+// --- Netlify/Serverless Support ---
+const serverless = require("serverless-http");
 module.exports = app;
+module.exports.handler = serverless(app);
 
+// Local development
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
