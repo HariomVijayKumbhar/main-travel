@@ -194,6 +194,25 @@ nav.navbar {
     transform: rotate(-10deg) scale(1.05);
 }
 
+.nav-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid var(--primary);
+    background: var(--surface);
+}
+
+.dropdown-menu {
+    border-radius: var(--radius-sm);
+    box-shadow: var(--glass-shadow);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin-top: 10px;
+    z-index: 2000;
+}
+
 .logo-text {
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
@@ -329,6 +348,8 @@ nav.navbar {
 
 .hero-image {
     width: 100%;
+    max-height: 550px;
+    object-fit: cover;
     border-radius: var(--radius-lg);
     box-shadow: var(--card-shadow);
     transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);

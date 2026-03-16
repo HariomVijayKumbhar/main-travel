@@ -125,9 +125,13 @@ const Auth = {
                 localStorage.setItem("supabaseSession", JSON.stringify(result.session));
                 
                 alert(`Welcome back, ${result.user.user_metadata.full_name || result.user.email}!`);
-                window.location.href = "../index.html";
+                window.location.href = window.location.pathname.includes('/pages/') ? '../index.html' : 'index.html';
             } else {
-                alert("Login failed: " + (result.error || result.message || "Unknown error (Status: " + response.status + ")"));
+                let errorMsg = result.error || result.message || "Unknown error";
+                if (errorMsg.toLowerCase().includes("email not confirmed")) {
+                    errorMsg = "Your email is not confirmed yet. Please check your inbox (and spam folder) for the verification link.";
+                }
+                alert("Login failed: " + errorMsg);
             }
         } catch (error) {
             console.error("Login error:", error);
@@ -159,18 +163,15 @@ const Auth = {
         const navList = document.querySelector(".navbar-nav");
         if (!navList) return;
 
-        const user = this.getCurrentUser();
-        const existingAuthItems = document.querySelectorAll(".auth-item");
-        if (!window.location.pathname.includes('profile.html')) {
-             existingAuthItems.forEach((el) => el.remove());
-        }
-
         const staticLinks = document.querySelectorAll('.auth-link');
+        const signUpBtn = document.querySelector('a[href*="register.html"]');
 
         if (user) {
             staticLinks.forEach(link => {
-                if(link.parentElement) link.parentElement.style.display = 'none';
+                if(link.closest('li')) link.closest('li').style.display = 'none';
+                else link.style.display = 'none';
             });
+            if (signUpBtn) signUpBtn.style.display = 'none';
 
             if (!window.location.pathname.includes('profile.html')) {
                 const userItem = `
