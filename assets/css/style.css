@@ -59,6 +59,19 @@ body {
     line-height: 1.6;
 }
 
+/* Auth State UI Control */
+body.user-logged-in .auth-link,
+body.user-logged-in .nav-auth-container,
+body.user-logged-in a[href*="login.html"],
+body.user-logged-in a[href*="register.html"] {
+    display: none !important;
+}
+
+.nav-auth-container {
+    display: flex;
+    align-items: center;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
     color: var(--secondary);
