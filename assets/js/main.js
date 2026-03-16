@@ -160,12 +160,12 @@ const Auth = {
     },
 
     updateUI: function () {
+        const user = this.getCurrentUser();
+        document.body.classList.toggle('user-logged-in', !!user);
+
         const navList = document.querySelector(".navbar-nav");
         if (!navList) return;
 
-        const user = this.getCurrentUser();
-        document.body.classList.toggle('user-logged-in', !!user);
-        
         const existingAuthItems = document.querySelectorAll(".auth-item");
         existingAuthItems.forEach((el) => el.remove());
 
