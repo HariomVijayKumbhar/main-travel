@@ -69,6 +69,13 @@ const Auth = {
                 Payment.showHistory();
             }
         });
+
+        // Listen for localStorage changes (for cross-tab login/logout)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'currentUser') {
+                this.updateUI();
+            }
+        });
     },
 
     register: async function () {
@@ -164,13 +171,21 @@ const Auth = {
         document.body.classList.toggle('user-logged-in', !!user);
 
         const navList = document.querySelector(".navbar-nav");
+        const authContainers = document.querySelectorAll(".nav-auth-container");
+        const authLinks = document.querySelectorAll(".auth-link, a[href*='register.html']");
+        
+        if (user) {
+            authContainers.forEach(el => el.classList.add('d-none'));
+            authLinks.forEach(el => el.classList.add('d-none'));
+        } else {
+            authContainers.forEach(el => el.classList.remove('d-none'));
+            authLinks.forEach(el => el.classList.remove('d-none'));
+        }
+
         if (!navList) return;
 
         const existingAuthItems = document.querySelectorAll(".auth-item");
         existingAuthItems.forEach((el) => el.remove());
-
-        const staticLinks = document.querySelectorAll('.auth-link');
-        const signUpBtn = document.querySelector('a[href*="register.html"]');
 
         if (user) {
             const isSubPage = window.location.pathname.includes('/pages/');
@@ -201,8 +216,7 @@ const Auth = {
                     });
                 }
             }, 0);
-        }
- else {
+        } else {
             if (window.location.pathname.includes('profile.html')) {
                 window.location.href = "login.html";
             }
