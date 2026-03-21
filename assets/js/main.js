@@ -191,31 +191,75 @@ const Auth = {
             const isSubPage = window.location.pathname.includes('/pages/');
             const profilePath = isSubPage ? 'profile.html' : 'pages/profile.html';
             
-            const userItem = `
-                <li class="nav-item auth-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff" class="nav-avatar rounded-circle me-2" alt="Profile" style="width: 32px; height: 32px; object-fit: cover; border: 2px solid var(--primary);">
-                        <span>${user.name}</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="navbarDropdown" style="background: var(--bg-card); backdrop-filter: blur(16px);">
-                        <li><a class="dropdown-item py-2" href="${profilePath}"><i class="fa-solid fa-user me-2 text-primary"></i>My Profile</a></li>
-                        <li><hr class="dropdown-divider opacity-10"></li>
-                        <li><a class="dropdown-item py-2 text-danger" href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</a></li>
-                    </ul>
-                </li>
-            `;
-            navList.insertAdjacentHTML("beforeend", userItem);
+            // Create user dropdown menu using safe DOM manipulation
+            const userItem = document.createElement('li');
+            userItem.className = 'nav-item auth-item dropdown';
             
-            // Add event listener for the newly created logout button
-            setTimeout(() => {
-                const logoutBtn = document.getElementById('logoutBtn');
-                if (logoutBtn) {
-                    logoutBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.logout();
-                    });
-                }
-            }, 0);
+            const dropdownLink = document.createElement('a');
+            dropdownLink.className = 'nav-link dropdown-toggle d-flex align-items-center';
+            dropdownLink.href = '#';
+            dropdownLink.id = 'navbarDropdown';
+            dropdownLink.setAttribute('role', 'button');
+            dropdownLink.setAttribute('data-bs-toggle', 'dropdown');
+            dropdownLink.setAttribute('aria-expanded', 'false');
+            
+            const avatarImg = document.createElement('img');
+            avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
+            avatarImg.className = 'nav-avatar rounded-circle me-2';
+            avatarImg.alt = 'Profile';
+            avatarImg.style.cssText = 'width: 32px; height: 32px; object-fit: cover; border: 2px solid var(--primary);';
+            
+            const userNameSpan = document.createElement('span');
+            userNameSpan.textContent = user.name;
+            
+            dropdownLink.appendChild(avatarImg);
+            dropdownLink.appendChild(userNameSpan);
+            
+            const dropdownMenu = document.createElement('ul');
+            dropdownMenu.className = 'dropdown-menu dropdown-menu-end shadow-lg border-0';
+            dropdownMenu.setAttribute('aria-labelledby', 'navbarDropdown');
+            dropdownMenu.style.cssText = 'background: var(--bg-card); backdrop-filter: blur(16px);';
+            
+            const profileItem = document.createElement('li');
+            const profileLink = document.createElement('a');
+            profileLink.className = 'dropdown-item py-2';
+            profileLink.href = profilePath;
+            const profileIcon = document.createElement('i');
+            profileIcon.className = 'fa-solid fa-user me-2 text-primary';
+            profileLink.appendChild(profileIcon);
+            profileLink.appendChild(document.createTextNode('My Profile'));
+            profileItem.appendChild(profileLink);
+            
+            const dividerItem = document.createElement('li');
+            const divider = document.createElement('hr');
+            divider.className = 'dropdown-divider opacity-10';
+            dividerItem.appendChild(divider);
+            
+            const logoutItem = document.createElement('li');
+            const logoutLink = document.createElement('a');
+            logoutLink.className = 'dropdown-item py-2 text-danger';
+            logoutLink.href = '#';
+            logoutLink.id = 'logoutBtn';
+            const logoutIcon = document.createElement('i');
+            logoutIcon.className = 'fa-solid fa-right-from-bracket me-2';
+            logoutLink.appendChild(logoutIcon);
+            logoutLink.appendChild(document.createTextNode('Logout'));
+            logoutItem.appendChild(logoutLink);
+            
+            dropdownMenu.appendChild(profileItem);
+            dropdownMenu.appendChild(dividerItem);
+            dropdownMenu.appendChild(logoutItem);
+            
+            userItem.appendChild(dropdownLink);
+            userItem.appendChild(dropdownMenu);
+            
+            navList.appendChild(userItem);
+            
+            // Add event listener for the logout button
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
         } else {
             if (window.location.pathname.includes('profile.html')) {
                 window.location.href = "login.html";
@@ -259,28 +303,49 @@ const Profile = {
                 if(noBookingsMsg) noBookingsMsg.classList.add('d-none');
 
                 bookings.forEach(booking => {
-                    const row = `
-                        <tr>
-                            <td>
-                                <div class="fw-bold">${booking.date ? new Date(booking.date).toLocaleDateString() : 'N/A'}</div>
-                                <small class="text-muted">ID: ${booking.id || '-'}</small>
-                            </td>
-                            <td>
-                                <div class="fw-bold text-primary">${booking.package}</div>
-                                <small>${booking.travelers} Travelers</small>
-                            </td>
-                            <td>
-                                <div class="fw-bold">${booking.total}</div>
-                                <small class="text-muted">${booking.method || 'Pending'}</small>
-                            </td>
-                            <td>
-                                <span class="badge bg-${booking.status === 'Confirmed' ? 'success' : 'warning'} rounded-pill">
-                                    ${booking.status}
-                                </span>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.insertAdjacentHTML('beforeend', row);
+                    const row = document.createElement('tr');
+                    
+                    const dateCell = document.createElement('td');
+                    const dateDiv = document.createElement('div');
+                    dateDiv.className = 'fw-bold';
+                    dateDiv.textContent = booking.date ? new Date(booking.date).toLocaleDateString() : 'N/A';
+                    const dateSmall = document.createElement('small');
+                    dateSmall.className = 'text-muted';
+                    dateSmall.textContent = `ID: ${booking.id || '-'}`;
+                    dateCell.appendChild(dateDiv);
+                    dateCell.appendChild(dateSmall);
+                    
+                    const packageCell = document.createElement('td');
+                    const packageDiv = document.createElement('div');
+                    packageDiv.className = 'fw-bold text-primary';
+                    packageDiv.textContent = booking.package;
+                    const packageSmall = document.createElement('small');
+                    packageSmall.textContent = `${booking.travelers} Travelers`;
+                    packageCell.appendChild(packageDiv);
+                    packageCell.appendChild(packageSmall);
+                    
+                    const totalCell = document.createElement('td');
+                    const totalDiv = document.createElement('div');
+                    totalDiv.className = 'fw-bold';
+                    totalDiv.textContent = booking.total;
+                    const totalSmall = document.createElement('small');
+                    totalSmall.className = 'text-muted';
+                    totalSmall.textContent = booking.method || 'Pending';
+                    totalCell.appendChild(totalDiv);
+                    totalCell.appendChild(totalSmall);
+                    
+                    const statusCell = document.createElement('td');
+                    const statusSpan = document.createElement('span');
+                    statusSpan.className = `badge bg-${booking.status === 'Confirmed' ? 'success' : 'warning'} rounded-pill`;
+                    statusSpan.textContent = booking.status;
+                    statusCell.appendChild(statusSpan);
+                    
+                    row.appendChild(dateCell);
+                    row.appendChild(packageCell);
+                    row.appendChild(totalCell);
+                    row.appendChild(statusCell);
+                    
+                    tbody.appendChild(row);
                 });
             }
         });

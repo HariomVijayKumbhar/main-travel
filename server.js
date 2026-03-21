@@ -65,13 +65,33 @@ const authenticateUser = async (req, res, next) => {
 // Register
 app.post("/api/auth/register", async (req, res) => {
   if (!supabase) return res.status(500).json({ error: "Supabase not configured" });
+  
   const { email, password, name } = req.body;
 
+  // Input validation
+  if (!email || !password || !name) {
+    return res.status(400).json({ error: "Email, password, and name are required" });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ error: "Password must be at least 6 characters long" });
+  }
+
+  if (name.length > 100 || email.length > 254) {
+    return res.status(400).json({ error: "Input data too long" });
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: "Invalid email format" });
+  }
+
   const { data, error } = await supabase.auth.signUp({
-    email,
+    email: email.toLowerCase().trim(),
     password,
     options: {
-      data: { full_name: name },
+      data: { full_name: name.trim().substring(0, 100) },
       emailRedirectTo: "https://mharajatravel.netlify.app/pages/login.html"
     },
   });
@@ -83,10 +103,26 @@ app.post("/api/auth/register", async (req, res) => {
 // Login
 app.post("/api/auth/login", async (req, res) => {
   if (!supabase) return res.status(500).json({ error: "Supabase not configured" });
+  
   const { email, password } = req.body;
 
+  // Input validation
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+
+  if (email.length > 254) {
+    return res.status(400).json({ error: "Email too long" });
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: "Invalid email format" });
+  }
+
   const { data, error } = await supabase.auth.signInWithPassword({
-    email,
+    email: email.toLowerCase().trim(),
     password,
   });
 
@@ -109,21 +145,22 @@ app.post("/api/bookings", authenticateUser, async (req, res) => {
   // Security: Ensure user is only booking for themselves
   const userEmail = req.user.email;
 
-  const { data, error } = await supabase.from("bookings").insert([
-    {
-      id: booking.id,
-      name: booking.name,
-      email: booking.email,
-      package: booking.package,
-      travelers: parseInt(booking.travelers),
-      total: booking.total,
-      date: booking.date,
-      status: booking.status,
-      user_email: userEmail, // Use authenticated email from JWT
-      payment_id: booking.paymentId,
-      method: booking.method,
-    },
-  ]);
+  // Input validation and sanitization
+  const sanitizedBooking = {
+    id: String(booking.id || '').trim().substring(0, 50), // Limit length
+    name: String(booking.name || '').trim().substring(0, 100),
+    email: userEmail, // Always use authenticated email
+    package: String(booking.package || '').trim().substring(0, 100),
+    travelers: Math.min(Math.max(parseInt(booking.travelers) || 1, 1), 20), // Limit to reasonable range
+    total: String(booking.total || '').trim().substring(0, 20),
+    date: booking.date ? new Date(booking.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+    status: String(booking.status || 'Pending').trim().substring(0, 20),
+    user_email: userEmail,
+    payment_id: String(booking.paymentId || '').trim().substring(0, 50),
+    method: String(booking.method || '').trim().substring(0, 20),
+  };
+
+  const { data, error } = await supabase.from("bookings").insert([sanitizedBooking]);
 
   if (error) return res.status(400).json({ error: error.message });
   res.json({ message: "Booking saved successfully", data });
