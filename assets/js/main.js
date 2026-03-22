@@ -59,6 +59,12 @@ const Auth = {
             }
         });
 
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'currentUser') {
+                this.updateUI();
+            }
+        });
+
         document.addEventListener("click", (e) => {
             if (e.target && (e.target.id === "logoutBtn" || e.target.id === "logoutBtnNav")) {
                 e.preventDefault();
@@ -106,7 +112,13 @@ const Auth = {
             }
         } catch (error) {
             console.error("Registration error:", error);
-            alert("An error occurred during registration. Please check if the server is running.");
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                alert("Network error: Please check your internet connection and try again.");
+            } else if (error.name === 'SyntaxError') {
+                alert("Server response error: Please try again later.");
+            } else {
+                alert("An error occurred during registration. Please check if the server is running.");
+            }
         }
     },
 
@@ -142,7 +154,13 @@ const Auth = {
             }
         } catch (error) {
             console.error("Login error:", error);
-            alert("An error occurred during login. Please check if the server is running.");
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                alert("Network error: Please check your internet connection and try again.");
+            } else if (error.name === 'SyntaxError') {
+                alert("Server response error: Please try again later.");
+            } else {
+                alert("An error occurred during login. Please check if the server is running.");
+            }
         }
     },
 
@@ -163,7 +181,15 @@ const Auth = {
     },
 
     getCurrentUser: function () {
-        return JSON.parse(localStorage.getItem("currentUser"));
+        const raw = localStorage.getItem("currentUser");
+        if (!raw) return null;
+        try {
+            return JSON.parse(raw);
+        } catch (err) {
+            console.error("Failed to parse currentUser from localStorage", err);
+            localStorage.removeItem("currentUser");
+            return null;
+        }
     },
 
     updateUI: function () {
@@ -678,7 +704,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
         });
-    } catch (e) { console.error("Initialization Failed:", e); }
+    } catch (initError) {
+        console.error("Database initialization failed:", initError);
+        // Continue with limited functionality if DB init fails
+    }
 });
 
 // --- UI Utility Module ---

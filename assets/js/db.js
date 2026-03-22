@@ -20,8 +20,9 @@ const DB = {
                 if (session && session.access_token) {
                     headers['Authorization'] = `Bearer ${session.access_token}`;
                 }
-            } catch (e) {
-                console.error("Failed to parse session", e);
+            } catch (parseError) {
+                console.error("Failed to parse session:", parseError);
+                // Continue without auth header if session parsing fails
             }
         }
         
